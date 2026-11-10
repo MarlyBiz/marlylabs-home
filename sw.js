@@ -1,5 +1,5 @@
 /* MarlyLabs home — network-first shell so every open gets the latest. */
-const V = 'marlylabs-home-v1.0.3';
+const V = 'marlylabs-home-v1.0.4';
 self.addEventListener('install', (e) => {
   e.waitUntil(self.skipWaiting());
 });

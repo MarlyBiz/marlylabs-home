@@ -6,3 +6,5 @@
 - Repo: MarlyBiz/marlylabs-home. Worker `marlylabs-home` on marlylabs.app + www.
 - Add apps: push into the right `SECTIONS` apps array in `index.html`, bump SW `V`, `sh scripts/build.sh && wrangler deploy`.
 - Screens: `screens/desktop.png`, `screens/mobile.png`.
+
+- **v1.0.4** — added BRRRR Pro Calculator under Real Estate (https://brrrr.marlylabs.app/).
