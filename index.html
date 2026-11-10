@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f1419" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f4f6f9" media="(prefers-color-scheme: light)" />
+  <meta name="description" content="MarlyLabs — apps for work, weather, markets, and a little fun." />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <title>MarlyLabs</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f4f6f9;
+      --fg: #1a2332;
+      --muted: #5b6b7c;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --accent: #3d6ad6;
+      --accent-soft: #e8effc;
+      --shadow: 0 1px 2px rgba(16,24,40,.04), 0 8px 24px rgba(16,24,40,.06);
+      --radius: 16px;
+      --max: 920px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1419;
+        --fg: #e8eef6;
+        --muted: #9aabbd;
+        --card: #171e27;
+        --border: #263041;
+        --accent: #7aa2ff;
+        --accent-soft: #1a2740;
+        --shadow: 0 1px 2px rgba(0,0,0,.25), 0 10px 28px rgba(0,0,0,.28);
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.45;
+      min-height: 100dvh;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 28px 18px 48px; }
+    header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 16px; margin-bottom: 28px; flex-wrap: wrap;
+    }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand img {
+      width: 48px; height: 48px; border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+    .brand h1 { margin: 0; font-size: 1.45rem; letter-spacing: -0.02em; font-weight: 700; }
+    .brand p { margin: 2px 0 0; color: var(--muted); font-size: .95rem; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    button.btn {
+      appearance: none; border: 1px solid var(--border); background: var(--card);
+      color: var(--fg); border-radius: 999px; padding: 8px 14px; font: inherit;
+      font-size: .9rem; font-weight: 600; cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+    button.btn:hover { border-color: var(--accent); }
+    button.btn.primary { background: var(--accent); color: #fff; border-color: transparent; }
+    button.btn[hidden] { display: none !important; }
+
+    section { margin: 28px 0 8px; }
+    section h2 {
+      margin: 0 0 12px; font-size: .78rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    @media (min-width: 640px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+    .card {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px 14px 14px 12px;
+      box-shadow: var(--shadow);
+      transition: border-color .15s ease, transform .15s ease;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .card img.app-icon {
+      width: 52px; height: 52px; border-radius: 12px; flex: none;
+      background: var(--accent-soft); object-fit: cover;
+    }
+    .card .meta { flex: 1; min-width: 0; }
+    .card .meta strong {
+      display: block; font-size: 1.02rem; letter-spacing: -0.01em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .card .meta span {
+      display: block; color: var(--muted); font-size: .88rem;
+      margin-top: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .card .open {
+      flex: none; font-size: .85rem; font-weight: 700;
+      color: var(--accent); padding: 8px 10px; border-radius: 999px;
+      background: var(--accent-soft);
+    }
+
+    footer {
+      margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border);
+      color: var(--muted); font-size: .85rem;
+      display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <img src="/icons/icon.svg" width="48" height="48" alt="" />
+        <div>
+          <h1>MarlyLabs</h1>
+          <p>Apps for work, weather, markets, and a little fun.</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn" id="shareBtn">Share</button>
+        <button type="button" class="btn primary" id="installBtn" hidden>Install</button>
+      </div>
+    </header>
+
+    <main id="app"></main>
+
+    <footer>
+      <span>© MarlyLabs</span>
+      <span>marlylabs.app</span>
+    </footer>
+  </div>
+
+  <script>
+    // Easy to extend: push another object into the right section's apps array.
+    const SECTIONS = [
+      {
+        id: 'time-killers',
+        title: 'Time Killers',
+        apps: [
+          {
+            name: "River's Edge Poker",
+            blurb: "Texas Hold'em at a saloon table.",
+            url: 'https://poker.marlylabs.app/',
+            icon: '/icons/poker.svg'
+          },
+          {
+            name: 'Retro Space Shooter',
+            blurb: '50 levels, five bosses, classic arcade action.',
+            url: 'https://marlybiz.github.io/retro-space-shooter/',
+            icon: '/icons/shooter.svg'
+          }
+        ]
+      },
+      {
+        id: 'work',
+        title: 'Work & Productivity',
+        apps: [
+          {
+            name: 'Gig Efficiency Tracker',
+            blurb: 'Track $/hour, mileage, and expenses for gig driving.',
+            url: 'https://gig.marlylabs.app/',
+            icon: '/icons/gig.svg'
+          }
+        ]
+      },
+      {
+        id: 'money',
+        title: 'Money & Markets',
+        apps: [
+          {
+            name: 'Vibe Market Intel',
+            blurb: 'Whale flows, ETF trackers, catalysts, and alerts.',
+            url: 'https://vibeintel.marlylabs.app/',
+            icon: '/icons/vibeintel-192.png'
+          },
+          {
+            name: 'Vibe Charts Analytics',
+            blurb: 'Charts, indicators, and confluence analytics.',
+            url: 'https://vibecharts.marlylabs.app/',
+            icon: '/icons/vibecharts.svg'
+          }
+        ]
+      },
+      {
+        id: 'weather',
+        title: 'Weather & Outdoors',
+        apps: [
+          {
+            name: 'Heaven on Earth',
+            blurb: 'Weather radar, forecasts, and a star view.',
+            url: 'https://heaven.marlylabs.app/',
+            icon: '/icons/heaven.svg'
+          }
+        ]
+      },
+      {
+        id: 'everyday',
+        title: 'Everyday',
+        apps: [
+          {
+            name: 'Ten',
+            blurb: 'A 10-hour clock where the day begins at sunset.',
+            url: 'https://ten.marlylabs.app/',
+            icon: '/icons/ten.svg'
+          }
+        ]
+      }
+    ];
+
+    const root = document.getElementById('app');
+    for (const section of SECTIONS) {
+      if (!section.apps.length) continue;
+      const el = document.createElement('section');
+      el.id = section.id;
+      el.innerHTML = `<h2>${section.title}</h2>`;
+      const grid = document.createElement('div');
+      grid.className = 'grid';
+      for (const app of section.apps) {
+        const a = document.createElement('a');
+        a.className = 'card';
+        a.href = app.url;
+        a.rel = 'noopener';
+        a.innerHTML = `
+          <img class="app-icon" src="${app.icon}" width="52" height="52" alt="" loading="lazy" />
+          <div class="meta">
+            <strong>${app.name}</strong>
+            <span>${app.blurb}</span>
+          </div>
+          <span class="open">Open</span>`;
+        grid.appendChild(a);
+      }
+      el.appendChild(grid);
+      root.appendChild(el);
+    }
+
+    // Install + Share (same pattern as the other MarlyLabs PWAs)
+    let installEvt = null;
+    const installBtn = document.getElementById('installBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    const standalone = () =>
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone === true;
+
+    function refreshInstall() {
+      installBtn.hidden = standalone() || !installEvt;
+    }
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      installEvt = e;
+      refreshInstall();
+    });
+    window.addEventListener('appinstalled', () => {
+      installEvt = null;
+      refreshInstall();
+    });
+    installBtn.addEventListener('click', async () => {
+      if (!installEvt) return;
+      installEvt.prompt();
+      try { await installEvt.userChoice; } catch (_) {}
+      installEvt = null;
+      refreshInstall();
+    });
+    refreshInstall();
+
+    shareBtn.addEventListener('click', async () => {
+      const data = {
+        title: 'MarlyLabs',
+        text: 'Apps for work, weather, markets, and a little fun.',
+        url: location.origin + '/'
+      };
+      if (navigator.share) {
+        try { await navigator.share(data); return; }
+        catch (e) { if (e && e.name === 'AbortError') return; }
+      }
+      try {
+        await navigator.clipboard.writeText(data.url);
+        shareBtn.textContent = 'Copied';
+        setTimeout(() => { shareBtn.textContent = 'Share'; }, 1400);
+      } catch (_) {
+        prompt('Copy this link:', data.url);
+      }
+    });
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {});
+    }
+  </script>
+</body>
+</html>
