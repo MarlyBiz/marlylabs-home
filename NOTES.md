@@ -1,6 +1,8 @@
 # MarlyLabs home (marlylabs.app)
 
-- v1.0.0 — first homepage. Lists live MarlyLabs / GitHub Pages apps only.
-- Apps excluded: budget.marlylabs.app (private personal), CelestialWatcher (private / down), AI Studio apps, coming-soon placeholders.
-- To add a game later: push an object into the Time Killers `apps` array in `index.html`.
-- Publish: `sh scripts/build.sh && npx wrangler deploy`
+- **v1.0.0** live at https://marlylabs.app (+ www) — Worker `marlylabs-home`, custom domains attached.
+- Repo: MarlyBiz/marlylabs-home (public). Commit e67bd5b.
+- Listed (live only): Poker, Space Shooter, Gig, Vibe Market Intel, Vibe Charts, Heaven on Earth, Ten.
+- Excluded: budget.marlylabs.app (private personal), CelestialWatcher (private / pages.dev 522), AI Studio apps, coming-soon placeholders. Radar GH Pages is the same Heaven app (not double-listed).
+- Add a game later: push into the Time Killers `apps` array in `index.html`, bump SW `V`, `sh scripts/build.sh && wrangler deploy`.
+- Screens: `screens/desktop.png`, `screens/mobile.png`.
